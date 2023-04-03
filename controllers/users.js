@@ -37,14 +37,14 @@ const createUser = (req, res) => {
 	const { name, about, avatar } = req.body
 	if (!name || !about || !avatar) {
 		res.status(IncorrectDataUserCreationInstance.statusCode)
-		res.send(IncorrectDataUserCreationInstance.getMessage())
+			.send(IncorrectDataUserCreationInstance.getMessage())
 		return
 	}
 	User.create({ name, about, avatar })
 		.then(newUser => res.send({ data: newUser }))
 		.catch(err => {
-			res.status(DefaultErrorInstance.statusCode)
-				.send(DefaultErrorInstance.getMessage())
+			res.status(IncorrectDataUserCreationInstance.statusCode)
+				.send(IncorrectDataUserCreationInstance.getMessage())
 		})
 }
 
@@ -52,7 +52,7 @@ const updateUserProfile = (req, res) => {
 	const { name, about } = req.body
 	if (!name || !about) {
 		res.status(IncorrectDataUserUpdateProfileInstance.statusCode)
-		res.send(IncorrectDataUserUpdateProfileInstance.getMessage())
+			.send(IncorrectDataUserUpdateProfileInstance.getMessage())
 		return
 	}
 	const userId = req.user._id
@@ -63,8 +63,8 @@ const updateUserProfile = (req, res) => {
 	)
 		.then(user => res.send({ data: user }))
 		.catch(err => {
-			res.status(DefaultErrorInstance.statusCode)
-				.send(DefaultErrorInstance.getMessage())
+			res.status(IncorrectDataUserUpdateProfileInstance.statusCode)
+				.send(IncorrectDataUserUpdateProfileInstance.getMessage())
 		})
 }
 
@@ -72,7 +72,7 @@ const updateUserAvatar = (req, res) => {
 	const { avatar } = req.body
 	if (!avatar) {
 		res.status(IncorrectDataUserUpdateAvatarInstance.statusCode)
-		res.send(IncorrectDataUserUpdateAvatarInstance.getMessage())
+			.send(IncorrectDataUserUpdateAvatarInstance.getMessage())
 		return
 	}
 	const userId = req.user._id
@@ -83,8 +83,8 @@ const updateUserAvatar = (req, res) => {
 	)
 		.then(newUser => res.send({ data: newUser }))
 		.catch(err => {
-			res.status(DefaultErrorInstance.statusCode)
-				.send(DefaultErrorInstance.getMessage())
+			res.status(IncorrectDataUserUpdateAvatarInstance.statusCode)
+				.send(IncorrectDataUserUpdateAvatarInstance.getMessage())
 		})
 }
 module.exports = {
