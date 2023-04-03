@@ -1,5 +1,4 @@
 class IncorrectDataCardCreation extends Error {
-
 	constructor(message) {
 		super(message);
 		this.name = "IncorrectDataCardCreation";
