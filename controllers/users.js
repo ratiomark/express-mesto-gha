@@ -50,7 +50,7 @@ const updateUserProfile = async (req, res) => {
 			{ name, about },
 			{ new: true },
 		);
-		if (!data) throw new DataNotFoundInDb();
+		if (!data) throw new IncorrectData();
 		res.send({ data });
 	} catch (err) {
 		errorsChecker(err, res);
