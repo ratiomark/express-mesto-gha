@@ -29,11 +29,7 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
 	try {
 		const { name, about, avatar } = req.body;
-		if (!name || !about || !avatar) throw new IncorrectData();
-
 		const data = await User.create({ name, about, avatar });
-
-		// if (!data) throw new Error();
 		res.send({ data });
 	} catch (err) {
 		errorsChecker(err, res);
