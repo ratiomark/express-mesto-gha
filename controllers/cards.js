@@ -52,7 +52,7 @@ const likeCard = async (req, res) => {
 		const data = await Card.findByIdAndUpdate(
 			cardId,
 			{ $addToSet: { likes: userId } },
-			{ new: true },
+			{ new: true, runValidators: true },
 		);
 
 		if (!data) throw new DataNotFoundInDb();
@@ -71,7 +71,7 @@ const dislikeCard = async (req, res) => {
 		const data = await Card.findByIdAndUpdate(
 			cardId,
 			{ $pull: { likes: userId } },
-			{ new: true },
+			{ new: true, runValidators: true },
 		);
 
 		if (!data) throw new DataNotFoundInDb();

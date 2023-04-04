@@ -44,7 +44,7 @@ const updateUserProfile = async (req, res) => {
 		const data = await User.findByIdAndUpdate(
 			userId,
 			{ name, about },
-			{ new: true },
+			{ new: true, runValidators: true },
 		);
 		if (!data) throw new IncorrectData();
 		res.send({ data });
@@ -61,7 +61,7 @@ const updateUserAvatar = async (req, res) => {
 		const data = await User.findByIdAndUpdate(
 			userId,
 			{ avatar },
-			{ new: true },
+			{ new: true, runValidators: true },
 		);
 
 		if (!data) throw new IncorrectData();
