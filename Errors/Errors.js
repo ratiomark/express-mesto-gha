@@ -28,28 +28,6 @@ class DataNotFoundInDb extends ExtendedError {
 	}
 }
 
-// class DataNotFoundInDb extends ExtendedError {
-// 	constructor(message) {
-// 		super(message);
-// 		if (!message) {
-// 			this.message = 'Пользователь не найден';
-// 		}
-// 		this.name = 'IncorrectDataUserUpdateAvatar';
-// 		this.statusCode = 404;
-// 	}
-// }
-
-// class CardIdNotProvided extends ExtendedError {
-// 	constructor(message) {
-// 		super(message);
-// 		if (!message) {
-// 			this.message = 'Не предоставлен Id карточки';
-// 		}
-// 		this.name = 'IncorrectDataUserUpdateAvatar';
-// 		this.statusCode = 400;
-// 	}
-// }
-
 class DefaultError extends ExtendedError {
 	constructor(message) {
 		super(message);
@@ -80,25 +58,8 @@ const errorsChecker = (error, res) => {
 	}
 };
 
-// const errorsCardChecker = (error, res) => {
-// 	if (error instanceof MongooseError) error = new IncorrectData();
-// 	switch (error.constructor) {
-// 		case IncorrectData:
-// 			res.status(error.statusCode)
-// 				.send(error.getMessage());
-// 			break;
-// 		case DataNotFoundInDb:
-// 			res.status(error.statusCode)
-// 				.send(error.getMessage());
-// 			break;
-// 		default:
-// 			res.status(DefaultErrorInstance.statusCode)
-// 				.send(DefaultErrorInstance.getMessage());
-// 	}
-// };
 module.exports = {
 	IncorrectData,
 	DataNotFoundInDb,
-
 	errorsChecker,
 };

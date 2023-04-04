@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
 
 		const data = await User.create({ name, about, avatar });
 
-		if (!data) throw new Error();
+		// if (!data) throw new Error();
 		res.send({ data });
 	} catch (err) {
 		errorsChecker(err, res);
@@ -50,8 +50,7 @@ const updateUserProfile = async (req, res) => {
 			{ name, about },
 			{ new: true },
 		);
-
-		if (!data) throw new DataNotFoundInDb();
+		if (!data) throw new IncorrectData();
 		res.send({ data });
 	} catch (err) {
 		errorsChecker(err, res);
@@ -61,7 +60,6 @@ const updateUserProfile = async (req, res) => {
 const updateUserAvatar = async (req, res) => {
 	try {
 		const { avatar } = req.body;
-		if (!avatar) throw new IncorrectData();
 
 		const userId = req.user._id;
 		const data = await User.findByIdAndUpdate(
@@ -70,7 +68,7 @@ const updateUserAvatar = async (req, res) => {
 			{ new: true },
 		);
 
-		if (!data) throw new DataNotFoundInDb();
+		if (!data) throw new IncorrectData();
 		res.send({ data });
 	} catch (err) {
 		errorsChecker(err, res);
