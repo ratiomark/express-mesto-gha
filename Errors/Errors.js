@@ -1,4 +1,4 @@
-const MongooseError = require('mongoose').Error.ValidationError
+const MongooseError = require('mongoose').MongooseError
 class IncorrectDataCardCreation extends Error {
 	constructor(message) {
 		super(message);
