@@ -41,7 +41,7 @@ const deleteCard = async (req, res) => {
 		const { cardId } = req.params
 		if (!cardId) throw new CardIdNotProvided()
 
-		const data = await Card.deleteOne({ _id: cardId })
+		const data = await Card.findByIdAndDelete({ _id: cardId })
 
 		if (!data) throw new CardNotFoundInDb()
 		res.send({ data })
@@ -55,15 +55,15 @@ const likeCard = async (req, res) => {
 	try {
 		const { cardId } = req.params
 		if (!cardId) throw new CardIdNotProvided()
-
+		console.log(cardId)
 		const userId = req.user._id
 		const data = await Card.findByIdAndUpdate(
 			cardId,
 			{ $addToSet: { likes: userId } },
 			{ new: true },
 		)
-
-		if (!data) throw new Error()
+		console.log(data)
+		if (!data) throw new CardNotFoundInDb()
 		res.send({ data })
 
 	} catch (err) {
@@ -83,7 +83,7 @@ const dislikeCard = async (req, res) => {
 			{ new: true }
 		)
 
-		if (!data) throw new Error()
+		if (!data) throw new CardNotFoundInDb()
 		res.send({ data })
 
 	} catch (err) {

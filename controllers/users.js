@@ -20,7 +20,7 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
 	try {
-		const userId = req.user._id
+		const { userId } = req.params
 		const data = await User.findById(userId)
 		if (!data) throw new UserNotFoundInDb()
 		res.send({ data })
