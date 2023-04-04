@@ -22,5 +22,7 @@ const cardSchema = new mongoose.Schema({
 		type: Date,
 		default: new Date()
 	}
-})
+},
+	{ versionKey: false }
+)
 module.exports = mongoose.model('card', cardSchema)

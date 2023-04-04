@@ -1,107 +1,94 @@
 const Card = require('../models/cards')
 
 const {
-	IncorrectDataCardCreation,
 	CardNotFoundInDb,
 	CardIdNotProvided,
 	errorsCardChecker,
-	IncorrectDataCard	
+	IncorrectDataCard
 } = require('../Errors/Errors')
 
 
-const getCards = (req, res) => {
-	Card.find({})
-		.then(cards => res.send({ data: cards }))
-		.catch(err => {
-			res.statusCode(DefaultErrorInstance.statusCode)
-				.send(DefaultErrorInstance.getMessage())
-		})
+const getCards = async (req, res) => {
+	try {
+		const data = await Card.find({})
+
+		if (!data) throw new Error()
+		res.send({ data })
+
+	} catch (err) {
+		errorsCardChecker(err, res)
+	}
 }
 
-const createCard = (req, res) => {
-	const { name, link } = req.body
-	if (!name || !link) {
-		res.status(IncorrectDataCardCreationInstance.statusCode)
-			.send(IncorrectDataCardCreationInstance.getMessage())
-		return
+const createCard = async (req, res) => {
+	try {
+		const { name, link } = req.body
+		if (!name || !link) throw new IncorrectDataCard()
+
+		const userId = req.user._id
+		const data = await Card.create({ name, link, owner: userId })
+
+		if (!data) throw new Error()
+		res.send({ data })
+
+	} catch (err) {
+		errorsCardChecker(err, res)
 	}
-	const userId = req.user._id
-	Card.create({ name, link, owner: userId })
-		.then(card => res.send({ data: card }))
-		.catch(err => {
-			res.statusCode(DefaultErrorInstance.statusCode)
-				.send(DefaultErrorInstance.getMessage())
-		})
 }
 
-const deleteCard = (req, res) => {
-	const { cardId } = req.params
-	if (!cardId) {
-		res.status(CardIdNotProvidedInstance.statusCode)
-			.send(CardIdNotProvidedInstance.getMessage())
-		return
+const deleteCard = async (req, res) => {
+	try {
+		const { cardId } = req.params
+		if (!cardId) throw new CardIdNotProvided()
+
+		const data = await Card.deleteOne({ _id: cardId })
+
+		if (!data) throw new CardNotFoundInDb()
+		res.send({ data })
+
+	} catch (err) {
+		errorsCardChecker(err, res)
 	}
-	Card.deleteOne({ _id: cardId })
-		.then(card => res.send({ data: 'Карточка удалена' }))
-		.catch(err => {
-			res.status(CardNotFoundInDbInstance.statusCode)
-				.send(CardNotFoundInDbInstance.getMessage())
-		})
 }
 
-const likeCard = (req, res) => {
-	const { cardId } = req.params
-	if (!cardId) {
-		res.status(CardIdNotProvidedInstance.statusCode)
-			.send(CardIdNotProvidedInstance.getMessage())
-		return
+const likeCard = async (req, res) => {
+	try {
+		const { cardId } = req.params
+		if (!cardId) throw new CardIdNotProvided()
+
+		const userId = req.user._id
+		const data = await Card.findByIdAndUpdate(
+			cardId,
+			{ $addToSet: { likes: userId } },
+			{ new: true },
+		)
+
+		if (!data) throw new Error()
+		res.send({ data })
+
+	} catch (err) {
+		errorsCardChecker(err, res)
 	}
-	const userId = req.user._id
-	Card.findByIdAndUpdate(
-		cardId,
-		{ $addToSet: { likes: userId } }, 
-		{ new: true },
-	)
-		.then(card => {
-			if (!card) {
-				res.status(CardNotFoundInDbInstance.statusCode)
-					.send(CardNotFoundInDbInstance.getMessage())
-				return
-			}
-			res.send({ data: card })
-		})
-		.catch(err => {
-			res.status(DefaultErrorInstance.statusCode)
-				.send(DefaultErrorInstance.getMessage())
-		})
 }
 
-const dislikeCard = (req, res) => {
-	const { cardId } = req.params
-	if (!cardId) {
-		res.status(CardIdNotProvidedInstance.statusCode)
-			.send(CardIdNotProvidedInstance.getMessage())
-		return
+const dislikeCard = async (req, res) => {
+	try {
+		const { cardId } = req.params
+		if (!cardId) throw new CardIdNotProvided()
+
+		const userId = req.user._id
+		const data = await Card.findByIdAndUpdate(
+			cardId,
+			{ $pull: { likes: userId } },
+			{ new: true }
+		)
+
+		if (!data) throw new Error()
+		res.send({ data })
+
+	} catch (err) {
+		errorsCardChecker(err, res)
 	}
-	const userId = req.user._id
-	Card.findByIdAndUpdate(
-		cardId,
-		{ $pull: { likes: userId } },
-		{ new: true }
-	)
-		.then(card => {
-			if (!card) {
-				res.status(CardNotFoundInDbInstance.statusCode)
-					.send(CardNotFoundInDbInstance.getMessage())
-				return
-			}
-			res.send({ data: card })
-		})
-		.catch(err => {
-			console.log(err)
-			res.status(DefaultErrorInstance.statusCode)
-				.send(DefaultErrorInstance.getMessage())
-		})
 }
 
 
