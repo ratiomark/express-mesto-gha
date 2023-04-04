@@ -1,12 +1,12 @@
 const MongooseError = require('mongoose').Error
 class IncorrectDataCard extends Error {
 	constructor(message) {
-		super(message);
-		this.name = "IncorrectDataCardCreation";
+		super(message)
+		this.name = 'IncorrectDataCardCreation'
 		if (!message) {
-			this.message = "Предоставьте корректные данные";
+			this.message = 'Предоставьте корректные данные'
 		}
-		this.statusCode = 400;
+		this.statusCode = 400
 	}
 	getMessage() {
 		return { message: this.message }
@@ -28,12 +28,12 @@ class IncorrectDataCard extends Error {
 
 class IncorrectDataUser extends Error {
 	constructor(message) {
-		super(message);
+		super(message)
 		if (!message) {
-			this.message = "Предоставьте корректные данные";
+			this.message = 'Предоставьте корректные данные'
 		}
-		this.name = "IncorrectDataUser";
-		this.statusCode = 400;
+		this.name = 'IncorrectDataUser'
+		this.statusCode = 400
 	}
 	getMessage() {
 		return { message: this.message }
@@ -83,12 +83,12 @@ class IncorrectDataUser extends Error {
 
 class CardNotFoundInDb extends Error {
 	constructor(message) {
-		super(message);
+		super(message)
 		if (!message) {
-			this.message = "Карточка не найдена";
+			this.message = 'Карточка не найдена'
 		}
-		this.name = "IncorrectDataUserUpdateAvatar";
-		this.statusCode = 404;
+		this.name = 'IncorrectDataUserUpdateAvatar'
+		this.statusCode = 404
 	}
 	getMessage() {
 		return { message: this.message }
@@ -97,12 +97,12 @@ class CardNotFoundInDb extends Error {
 
 class UserNotFoundInDb extends Error {
 	constructor(message) {
-		super(message);
+		super(message)
 		if (!message) {
-			this.message = "Пользователь не найден";
+			this.message = 'Пользователь не найден'
 		}
-		this.name = "IncorrectDataUserUpdateAvatar";
-		this.statusCode = 404;
+		this.name = 'IncorrectDataUserUpdateAvatar'
+		this.statusCode = 404
 	}
 	getMessage() {
 		return { message: this.message }
@@ -111,12 +111,12 @@ class UserNotFoundInDb extends Error {
 
 class CardIdNotProvided extends Error {
 	constructor(message) {
-		super(message);
+		super(message)
 		if (!message) {
-			this.message = "Не предоставлен Id карточки";
+			this.message = 'Не предоставлен Id карточки'
 		}
-		this.name = "IncorrectDataUserUpdateAvatar";
-		this.statusCode = 400;
+		this.name = 'IncorrectDataUserUpdateAvatar'
+		this.statusCode = 400
 	}
 	getMessage() {
 		return { message: this.message }
@@ -124,12 +124,12 @@ class CardIdNotProvided extends Error {
 }
 class DefaultError extends Error {
 	constructor(message) {
-		super(message);
+		super(message)
 		if (!message) {
-			this.message = "Что-то пошло не так";
+			this.message = 'Что-то пошло не так'
 		}
-		this.name = "DefaultError";
-		this.statusCode = 500;
+		this.name = 'DefaultError'
+		this.statusCode = 500
 	}
 	getMessage() {
 		return { message: this.message }
@@ -144,23 +144,11 @@ const errorsUserChecker = (error, res) => {
 		case UserNotFoundInDb:
 			res.status(error.statusCode)
 				.send(error.getMessage())
-			break;
+			break
 		case IncorrectDataUser:
 			res.status(error.statusCode)
 				.send(error.getMessage())
-			break;
-		// case IncorrectDataUserCreation:
-		// 	res.status(error.statusCode)
-		// 		.send(error.getMessage())
-		// 	break;
-		// case IncorrectDataUserUpdateProfile:
-		// 	res.status(error.statusCode)
-		// 		.send(error.getMessage())
-		// 	break;
-		// case IncorrectDataUserUpdateAvatar:
-		// 	res.status(error.statusCode)
-		// 		.send(error.getMessage())
-		// 	break;
+			break
 		default:
 			res.status(DefaultErrorInstance.statusCode)
 				.send(DefaultErrorInstance.getMessage())
@@ -173,19 +161,15 @@ const errorsCardChecker = (error, res) => {
 		case IncorrectDataCard:
 			res.status(error.statusCode)
 				.send(error.getMessage())
-			break;
-		// case IncorrectDataCardCreation:
-		// 	res.status(error.statusCode)
-		// 		.send(error.getMessage())
-		// 	break;
+			break
 		case CardNotFoundInDb:
 			res.status(error.statusCode)
 				.send(error.getMessage())
-			break;
+			break
 		case CardIdNotProvided:
 			res.status(error.statusCode)
 				.send(error.getMessage())
-			break;
+			break
 		default:
 			res.status(DefaultErrorInstance.statusCode)
 				.send(DefaultErrorInstance.getMessage())

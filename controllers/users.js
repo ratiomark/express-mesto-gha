@@ -51,7 +51,7 @@ const updateUserProfile = async (req, res) => {
 		const userId = req.user._id
 		const data = await User.findByIdAndUpdate(
 			userId,
-			{ "name": name, "about": about },
+			{ 'name': name, 'about': about },
 			{ new: true }
 		)
 
@@ -71,7 +71,7 @@ const updateUserAvatar = async (req, res) => {
 		const userId = req.user._id
 		const data = await User.findByIdAndUpdate(
 			userId,
-			{ "avatar": avatar },
+			{ 'avatar': avatar },
 			{ new: true }
 		)
 

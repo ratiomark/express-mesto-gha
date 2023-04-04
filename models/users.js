@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
 	name: {
@@ -18,6 +18,6 @@ const userSchema = new mongoose.Schema({
 		required: true,
 	}
 },
-	{ versionKey: false }
+{ versionKey: false }
 )
 module.exports = mongoose.model('user', userSchema)
