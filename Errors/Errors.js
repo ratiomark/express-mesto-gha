@@ -110,11 +110,11 @@ class DefaultError extends Error {
 }
 const IncorrectDataCardCreationInstance = new IncorrectDataCardCreation()
 
-const IncorrectDataUserCreationInstance = new IncorrectDataUserCreation()
+// const IncorrectDataUserCreationInstance = new IncorrectDataUserCreation()
 
-const IncorrectDataUserUpdateProfileInstance = new IncorrectDataUserUpdateProfile()
+// const IncorrectDataUserUpdateProfileInstance = new IncorrectDataUserUpdateProfile()
 
-const IncorrectDataUserUpdateAvatarInstance = new IncorrectDataUserUpdateAvatar()
+// const IncorrectDataUserUpdateAvatarInstance = new IncorrectDataUserUpdateAvatar()
 
 const CardNotFoundInDbInstance = new CardNotFoundInDb()
 
@@ -123,13 +123,41 @@ const UserNotFoundInDbInstance = new UserNotFoundInDb()
 const DefaultErrorInstance = new DefaultError()
 const CardIdNotProvidedInstance = new CardIdNotProvided()
 
+const errorsUserChecker = (error, res) => {
+	switch (error.constructor) {
+		case UserNotFoundInDb:
+			res.status(error.statusCode)
+				.send(error.getMessage())
+			break;
+		case IncorrectDataUserCreation:
+			res.status(error.statusCode)
+				.send(error.getMessage())
+			break;
+		case IncorrectDataUserUpdateProfile:
+			res.status(error.statusCode)
+				.send(error.getMessage())
+			break;
+		case IncorrectDataUserUpdateAvatar:
+			res.status(error.statusCode)
+				.send(error.getMessage())
+			break;
+		default:
+			res.status(DefaultErrorInstance.statusCode)
+				.send(DefaultErrorInstance.getMessage())
+	}
+}
 module.exports = {
 	IncorrectDataCardCreationInstance,
-	IncorrectDataUserCreationInstance,
-	IncorrectDataUserUpdateProfileInstance,
-	IncorrectDataUserUpdateAvatarInstance,
+	IncorrectDataUserCreation,
+	IncorrectDataUserUpdateProfile,
+	IncorrectDataUserUpdateAvatar,
+	// IncorrectDataUserCreationInstance,
+	// IncorrectDataUserUpdateProfileInstance,
+	// IncorrectDataUserUpdateAvatarInstance,
 	CardNotFoundInDbInstance,
 	UserNotFoundInDbInstance,
 	DefaultErrorInstance,
-	CardIdNotProvidedInstance
+	CardIdNotProvidedInstance,
+	UserNotFoundInDb,
+	errorsUserChecker
 }
