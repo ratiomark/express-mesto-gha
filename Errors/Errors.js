@@ -17,12 +17,12 @@ class IncorrectDataCard extends ExtendedError {
 		}
 		this.statusCode = 400
 	}
-	// getMessage() {
+	// getMessage() {super()
 	// 	return { message: this.message }
 	// }
 }
 
-class IncorrectDataUser extends Error {
+class IncorrectDataUser extends ExtendedError {
 	constructor(message) {
 		super(message)
 		if (!message) {
