@@ -7,7 +7,7 @@ const {
 
 const getCards = async (req, res) => {
 	try {
-		const data = await Card.find({});
+		const data = await Card.find({}).populate('likes');
 		res.send({ data });
 	} catch (err) {
 		errorsChecker(err, res);
@@ -46,8 +46,8 @@ const likeCard = async (req, res) => {
 		const data = await Card.findByIdAndUpdate(
 			cardId,
 			{ $addToSet: { likes: userId } },
-			{ new: true, runValidators: true },
-		);
+			{ new: true },
+		).populate('likes');
 
 		if (!data) throw new DataNotFoundInDb();
 		res.send({ data });
@@ -64,8 +64,8 @@ const dislikeCard = async (req, res) => {
 		const data = await Card.findByIdAndUpdate(
 			cardId,
 			{ $pull: { likes: userId } },
-			{ new: true, runValidators: true },
-		);
+			{ new: true },
+		).populate('likes');
 
 		if (!data) throw new DataNotFoundInDb();
 		res.send({ data });
