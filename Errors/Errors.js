@@ -1,5 +1,14 @@
 const MongooseError = require('mongoose').Error
-class IncorrectDataCard extends Error {
+
+class ExtendedError extends Error {
+	constructor(message) {
+		super(message)
+	}
+	getMessage() {
+		return { message: this.message }
+	}
+}
+class IncorrectDataCard extends ExtendedError {
 	constructor(message) {
 		super(message)
 		this.name = 'IncorrectDataCardCreation'
@@ -8,23 +17,10 @@ class IncorrectDataCard extends Error {
 		}
 		this.statusCode = 400
 	}
-	getMessage() {
-		return { message: this.message }
-	}
+	// getMessage() {
+	// 	return { message: this.message }
+	// }
 }
-// class IncorrectDataCardCreation extends Error {
-// 	constructor(message) {
-// 		super(message);
-// 		this.name = "IncorrectDataCardCreation";
-// 		if (!message) {
-// 			this.message = "Предоставьте корректные данные для создания новой карточки";
-// 		}
-// 		this.statusCode = 400;
-// 	}
-// 	getMessage() {
-// 		return { message: this.message }
-// 	}
-// }
 
 class IncorrectDataUser extends Error {
 	constructor(message) {
@@ -35,51 +31,9 @@ class IncorrectDataUser extends Error {
 		this.name = 'IncorrectDataUser'
 		this.statusCode = 400
 	}
-	getMessage() {
-		return { message: this.message }
-	}
+
 }
-// class IncorrectDataUserCreation extends Error {
-// 	constructor(message) {
-// 		super(message);
-// 		if (!message) {
-// 			this.message = "Предоставьте корректные данные для создания нового пользователя";
-// 		}
-// 		this.name = "IncorrectDataUserCreation";
-// 		this.statusCode = 400;
-// 	}
-// 	getMessage() {
-// 		return { message: this.message }
-// 	}
-// }
 
-// class IncorrectDataUserUpdateProfile extends Error {
-// 	constructor(message) {
-// 		super(message);
-// 		if (!message) {
-// 			this.message = "Предоставьте корректные данные для обновления профиля";
-// 		}
-// 		this.name = "IncorrectDataUserUpdateProfile";
-// 		this.statusCode = 400;
-// 	}
-// 	getMessage() {
-// 		return { message: this.message }
-// 	}
-// }
-
-// class IncorrectDataUserUpdateAvatar extends Error {
-// 	constructor(message) {
-// 		super(message);
-// 		if (!message) {
-// 			this.message = "Предоставьте корректные данные для обновления профиля";
-// 		}
-// 		this.name = "IncorrectDataUserUpdateAvatar";
-// 		this.statusCode = 400;
-// 	}
-// 	getMessage() {
-// 		return { message: this.message }
-// 	}
-// }
 
 class CardNotFoundInDb extends Error {
 	constructor(message) {
