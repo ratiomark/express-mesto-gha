@@ -1,3 +1,4 @@
+const MongooseError = require('mongoose').Error.ValidationError
 class IncorrectDataCardCreation extends Error {
 	constructor(message) {
 		super(message);
@@ -12,47 +13,60 @@ class IncorrectDataCardCreation extends Error {
 	}
 }
 
-class IncorrectDataUserCreation extends Error {
+class IncorrectDataUser extends Error {
 	constructor(message) {
 		super(message);
 		if (!message) {
-			this.message = "Предоставьте корректные данные для создания нового пользователя";
+			this.message = "Предоставьте корректные данные";
 		}
-		this.name = "IncorrectDataUserCreation";
+		this.name = "IncorrectDataUser";
 		this.statusCode = 400;
 	}
 	getMessage() {
 		return { message: this.message }
 	}
 }
+// class IncorrectDataUserCreation extends Error {
+// 	constructor(message) {
+// 		super(message);
+// 		if (!message) {
+// 			this.message = "Предоставьте корректные данные для создания нового пользователя";
+// 		}
+// 		this.name = "IncorrectDataUserCreation";
+// 		this.statusCode = 400;
+// 	}
+// 	getMessage() {
+// 		return { message: this.message }
+// 	}
+// }
 
-class IncorrectDataUserUpdateProfile extends Error {
-	constructor(message) {
-		super(message);
-		if (!message) {
-			this.message = "Предоставьте корректные данные для обновления профиля";
-		}
-		this.name = "IncorrectDataUserUpdateProfile";
-		this.statusCode = 400;
-	}
-	getMessage() {
-		return { message: this.message }
-	}
-}
+// class IncorrectDataUserUpdateProfile extends Error {
+// 	constructor(message) {
+// 		super(message);
+// 		if (!message) {
+// 			this.message = "Предоставьте корректные данные для обновления профиля";
+// 		}
+// 		this.name = "IncorrectDataUserUpdateProfile";
+// 		this.statusCode = 400;
+// 	}
+// 	getMessage() {
+// 		return { message: this.message }
+// 	}
+// }
 
-class IncorrectDataUserUpdateAvatar extends Error {
-	constructor(message) {
-		super(message);
-		if (!message) {
-			this.message = "Предоставьте корректные данные для обновления профиля";
-		}
-		this.name = "IncorrectDataUserUpdateAvatar";
-		this.statusCode = 400;
-	}
-	getMessage() {
-		return { message: this.message }
-	}
-}
+// class IncorrectDataUserUpdateAvatar extends Error {
+// 	constructor(message) {
+// 		super(message);
+// 		if (!message) {
+// 			this.message = "Предоставьте корректные данные для обновления профиля";
+// 		}
+// 		this.name = "IncorrectDataUserUpdateAvatar";
+// 		this.statusCode = 400;
+// 	}
+// 	getMessage() {
+// 		return { message: this.message }
+// 	}
+// }
 
 class CardNotFoundInDb extends Error {
 	constructor(message) {
@@ -108,36 +122,49 @@ class DefaultError extends Error {
 		return { message: this.message }
 	}
 }
-const IncorrectDataCardCreationInstance = new IncorrectDataCardCreation()
-
-// const IncorrectDataUserCreationInstance = new IncorrectDataUserCreation()
-
-// const IncorrectDataUserUpdateProfileInstance = new IncorrectDataUserUpdateProfile()
-
-// const IncorrectDataUserUpdateAvatarInstance = new IncorrectDataUserUpdateAvatar()
-
-const CardNotFoundInDbInstance = new CardNotFoundInDb()
-
-const UserNotFoundInDbInstance = new UserNotFoundInDb()
 
 const DefaultErrorInstance = new DefaultError()
-const CardIdNotProvidedInstance = new CardIdNotProvided()
 
 const errorsUserChecker = (error, res) => {
+	if (error instanceof MongooseError) error = new IncorrectDataUser()
 	switch (error.constructor) {
 		case UserNotFoundInDb:
 			res.status(error.statusCode)
 				.send(error.getMessage())
 			break;
-		case IncorrectDataUserCreation:
+		case IncorrectDataUser:
 			res.status(error.statusCode)
 				.send(error.getMessage())
 			break;
-		case IncorrectDataUserUpdateProfile:
+		// case IncorrectDataUserCreation:
+		// 	res.status(error.statusCode)
+		// 		.send(error.getMessage())
+		// 	break;
+		// case IncorrectDataUserUpdateProfile:
+		// 	res.status(error.statusCode)
+		// 		.send(error.getMessage())
+		// 	break;
+		// case IncorrectDataUserUpdateAvatar:
+		// 	res.status(error.statusCode)
+		// 		.send(error.getMessage())
+		// 	break;
+		default:
+			res.status(DefaultErrorInstance.statusCode)
+				.send(DefaultErrorInstance.getMessage())
+	}
+}
+
+const errorsCardChecker = (error, res) => {
+	switch (error.constructor) {
+		case IncorrectDataCardCreation:
 			res.status(error.statusCode)
 				.send(error.getMessage())
 			break;
-		case IncorrectDataUserUpdateAvatar:
+		case CardNotFoundInDb:
+			res.status(error.statusCode)
+				.send(error.getMessage())
+			break;
+		case CardIdNotProvided:
 			res.status(error.statusCode)
 				.send(error.getMessage())
 			break;
@@ -147,17 +174,15 @@ const errorsUserChecker = (error, res) => {
 	}
 }
 module.exports = {
-	IncorrectDataCardCreationInstance,
-	IncorrectDataUserCreation,
-	IncorrectDataUserUpdateProfile,
-	IncorrectDataUserUpdateAvatar,
-	// IncorrectDataUserCreationInstance,
-	// IncorrectDataUserUpdateProfileInstance,
-	// IncorrectDataUserUpdateAvatarInstance,
-	CardNotFoundInDbInstance,
-	UserNotFoundInDbInstance,
-	DefaultErrorInstance,
-	CardIdNotProvidedInstance,
+	IncorrectDataUser,
+	// IncorrectDataUserCreation,
+	// IncorrectDataUserUpdateProfile,
+	// IncorrectDataUserUpdateAvatar,
 	UserNotFoundInDb,
-	errorsUserChecker
+	errorsUserChecker,
+
+	IncorrectDataCardCreation,
+	CardNotFoundInDb,
+	CardIdNotProvided,
+	errorsCardChecker
 }

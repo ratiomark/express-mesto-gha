@@ -1,10 +1,10 @@
 const Card = require('../models/cards')
 
 const {
-	IncorrectDataCardCreationInstance,
-	CardNotFoundInDbInstance,
-	DefaultErrorInstance,
-	CardIdNotProvidedInstance
+	IncorrectDataCardCreation,
+	CardNotFoundInDb,
+	CardIdNotProvided,
+	errorsCardChecker
 } = require('../Errors/Errors')
 
 
