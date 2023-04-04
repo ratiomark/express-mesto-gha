@@ -44,11 +44,11 @@ const DefaultErrorInstance = new DefaultError();
 const errorsChecker = (error, res) => {
 	if (error instanceof MongooseError) error = new IncorrectData();
 	switch (error.constructor) {
-		case DataNotFoundInDb:
+		case IncorrectData:
 			res.status(error.statusCode)
 				.send(error.getMessage());
 			break;
-		case IncorrectData:
+		case DataNotFoundInDb:
 			res.status(error.statusCode)
 				.send(error.getMessage());
 			break;

@@ -70,6 +70,7 @@ const updateUserAvatar = async (req, res) => {
 		errorsChecker(err, res);
 	}
 };
+
 module.exports = {
 	getUsers,
 	getUserById,
