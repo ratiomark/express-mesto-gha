@@ -1,10 +1,10 @@
-const MongooseError = require('mongoose').MongooseError
-class IncorrectDataCardCreation extends Error {
+const MongooseError = require('mongoose').Error
+class IncorrectDataCard extends Error {
 	constructor(message) {
 		super(message);
 		this.name = "IncorrectDataCardCreation";
 		if (!message) {
-			this.message = "Предоставьте корректные данные для создания новой карточки";
+			this.message = "Предоставьте корректные данные";
 		}
 		this.statusCode = 400;
 	}
@@ -12,6 +12,19 @@ class IncorrectDataCardCreation extends Error {
 		return { message: this.message }
 	}
 }
+// class IncorrectDataCardCreation extends Error {
+// 	constructor(message) {
+// 		super(message);
+// 		this.name = "IncorrectDataCardCreation";
+// 		if (!message) {
+// 			this.message = "Предоставьте корректные данные для создания новой карточки";
+// 		}
+// 		this.statusCode = 400;
+// 	}
+// 	getMessage() {
+// 		return { message: this.message }
+// 	}
+// }
 
 class IncorrectDataUser extends Error {
 	constructor(message) {
@@ -155,11 +168,16 @@ const errorsUserChecker = (error, res) => {
 }
 
 const errorsCardChecker = (error, res) => {
+	if (error instanceof MongooseError) error = new IncorrectDataCard()
 	switch (error.constructor) {
-		case IncorrectDataCardCreation:
+		case IncorrectDataCard:
 			res.status(error.statusCode)
 				.send(error.getMessage())
 			break;
+		// case IncorrectDataCardCreation:
+		// 	res.status(error.statusCode)
+		// 		.send(error.getMessage())
+		// 	break;
 		case CardNotFoundInDb:
 			res.status(error.statusCode)
 				.send(error.getMessage())
@@ -181,7 +199,8 @@ module.exports = {
 	UserNotFoundInDb,
 	errorsUserChecker,
 
-	IncorrectDataCardCreation,
+	// IncorrectDataCardCreation,
+	IncorrectDataCard,
 	CardNotFoundInDb,
 	CardIdNotProvided,
 	errorsCardChecker

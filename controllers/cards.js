@@ -4,7 +4,8 @@ const {
 	IncorrectDataCardCreation,
 	CardNotFoundInDb,
 	CardIdNotProvided,
-	errorsCardChecker
+	errorsCardChecker,
+	IncorrectDataCard	
 } = require('../Errors/Errors')
 
 
