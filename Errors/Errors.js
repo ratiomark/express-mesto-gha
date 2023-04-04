@@ -8,6 +8,7 @@ class ExtendedError extends Error {
 		return { message: this.message }
 	}
 }
+
 class IncorrectDataCard extends ExtendedError {
 	constructor(message) {
 		super(message)
@@ -17,9 +18,6 @@ class IncorrectDataCard extends ExtendedError {
 		}
 		this.statusCode = 400
 	}
-	// getMessage() {super()
-	// 	return { message: this.message }
-	// }
 }
 
 class IncorrectDataUser extends ExtendedError {
@@ -31,11 +29,9 @@ class IncorrectDataUser extends ExtendedError {
 		this.name = 'IncorrectDataUser'
 		this.statusCode = 400
 	}
-
 }
 
-
-class CardNotFoundInDb extends Error {
+class CardNotFoundInDb extends ExtendedError {
 	constructor(message) {
 		super(message)
 		if (!message) {
@@ -44,12 +40,9 @@ class CardNotFoundInDb extends Error {
 		this.name = 'IncorrectDataUserUpdateAvatar'
 		this.statusCode = 404
 	}
-	getMessage() {
-		return { message: this.message }
-	}
 }
 
-class UserNotFoundInDb extends Error {
+class UserNotFoundInDb extends ExtendedError {
 	constructor(message) {
 		super(message)
 		if (!message) {
@@ -58,12 +51,9 @@ class UserNotFoundInDb extends Error {
 		this.name = 'IncorrectDataUserUpdateAvatar'
 		this.statusCode = 404
 	}
-	getMessage() {
-		return { message: this.message }
-	}
 }
 
-class CardIdNotProvided extends Error {
+class CardIdNotProvided extends ExtendedError {
 	constructor(message) {
 		super(message)
 		if (!message) {
@@ -72,11 +62,9 @@ class CardIdNotProvided extends Error {
 		this.name = 'IncorrectDataUserUpdateAvatar'
 		this.statusCode = 400
 	}
-	getMessage() {
-		return { message: this.message }
-	}
 }
-class DefaultError extends Error {
+
+class DefaultError extends ExtendedError {
 	constructor(message) {
 		super(message)
 		if (!message) {
@@ -84,9 +72,6 @@ class DefaultError extends Error {
 		}
 		this.name = 'DefaultError'
 		this.statusCode = 500
-	}
-	getMessage() {
-		return { message: this.message }
 	}
 }
 
@@ -130,14 +115,12 @@ const errorsCardChecker = (error, res) => {
 	}
 }
 module.exports = {
+	// User
 	IncorrectDataUser,
-	// IncorrectDataUserCreation,
-	// IncorrectDataUserUpdateProfile,
-	// IncorrectDataUserUpdateAvatar,
 	UserNotFoundInDb,
 	errorsUserChecker,
 
-	// IncorrectDataCardCreation,
+	// Card
 	IncorrectDataCard,
 	CardNotFoundInDb,
 	CardIdNotProvided,
