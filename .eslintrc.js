@@ -9,6 +9,7 @@ module.exports = {
   extends: [
     'airbnb-base',
   ],
+
   rules: {
     'linebreak-style': ['error', 'unix'],
     'no-underscore-dangle': [2, { allow: ['_id'] }],
