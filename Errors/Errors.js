@@ -11,7 +11,6 @@ const errorsChecker = (error, res) => {
     res.status(400).send({ message: 'Предоставьте корректные данные' });
     return;
   }
-
   switch (error.name) {
     case 'incorrectData':
       res.status(400).send({ message: error.message });
