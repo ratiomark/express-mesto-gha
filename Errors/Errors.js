@@ -1,65 +1,31 @@
 const MongooseError = require('mongoose').Error;
 
-class ExtendedError extends Error {
-	getMessage() {
-		return { message: this.message };
-	}
-}
+const incorrectData = new Error('Предоставьте корректные данные');
+incorrectData.name = 'incorrectData';
 
-class IncorrectData extends ExtendedError {
-	constructor(message) {
-		super(message);
-		this.name = 'IncorrectDataCardCreation';
-		if (!message) {
-			this.message = 'Предоставьте корректные данные';
-		}
-		this.statusCode = 400;
-	}
-}
-
-class DataNotFoundInDb extends ExtendedError {
-	constructor(message) {
-		super(message);
-		if (!message) {
-			this.message = 'Карточка не найдена';
-		}
-		this.name = 'IncorrectDataUserUpdateAvatar';
-		this.statusCode = 404;
-	}
-}
-
-class DefaultError extends ExtendedError {
-	constructor(message) {
-		super(message);
-		if (!message) {
-			this.message = 'Что-то пошло не так';
-		}
-		this.name = 'DefaultError';
-		this.statusCode = 500;
-	}
-}
-
-const DefaultErrorInstance = new DefaultError();
+const dataNotFoundInDb = new Error('Данные не найдены');
+dataNotFoundInDb.name = 'dataNotFoundInDb';
 
 const errorsChecker = (error, res) => {
-	if (error instanceof MongooseError) error = new IncorrectData();
-	switch (error.constructor) {
-		case IncorrectData:
-			res.status(error.statusCode)
-				.send(error.getMessage());
-			break;
-		case DataNotFoundInDb:
-			res.status(error.statusCode)
-				.send(error.getMessage());
-			break;
-		default:
-			res.status(DefaultErrorInstance.statusCode)
-				.send(DefaultErrorInstance.getMessage());
-	}
+  if (error instanceof MongooseError) {
+    res.status(400).send({ message: 'Предоставьте корректные данные' });
+    return;
+  }
+
+  switch (error.name) {
+    case 'incorrectData':
+      res.status(400).send({ message: error.message });
+      break;
+    case 'dataNotFoundInDb':
+      res.status(404).send({ message: error.message });
+      break;
+    default:
+      res.status(500).send({ message: 'Что-то пошло не так' });
+  }
 };
 
 module.exports = {
-	IncorrectData,
-	DataNotFoundInDb,
-	errorsChecker,
+  incorrectData,
+  dataNotFoundInDb,
+  errorsChecker,
 };

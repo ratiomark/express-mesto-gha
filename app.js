@@ -15,10 +15,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-	req.user = {
-		_id: '642c304a23023f99a6a65e07',
-	};
-	next();
+  req.user = {
+    _id: '642c304a23023f99a6a65e07',
+  };
+  next();
 });
 
 app.use('/users', userRouter);
@@ -26,5 +26,5 @@ app.use('/cards', cardRouter);
 app.use('/*', otherRouter);
 
 app.listen(PORT, () => {
-	console.log('Сервер запущен на порту ', PORT);
+  console.log('Сервер запущен на порту ', PORT);
 });
