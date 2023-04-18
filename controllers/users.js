@@ -102,7 +102,7 @@ const updateUserAvatar = async (req, res, next) => {
 
 const getUserData = async (req, res, next) => {
 	try {
-		const userId = req.userId
+		const userId = req.userId._id
 		const user = await User.findById(userId)
 		if (!user) throw ApiError.NotFound()
 		res.json({ message: user })
