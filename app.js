@@ -15,6 +15,7 @@ const { createUser, login } = require('./controllers/users')
 const errorMiddleware = require('./middleware/error-middleware')
 const authMiddleware = require('./middleware/auth-middleware')
 
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
 
 const app = express();
 
@@ -47,7 +48,6 @@ app.use(errorMiddleware)
 async function start() {
 	try {
 		const PORT = process.env.PORT || 3000
-		await mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
 		app.listen(PORT, () => {
 			console.log('Сервер запущен на порту ', PORT);
 		});
