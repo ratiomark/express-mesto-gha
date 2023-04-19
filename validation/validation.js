@@ -48,7 +48,8 @@ const cardIdParamsValidation = [
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return next(ApiError.BadRequest());
-  return next();
+  next();
+  return null;
 };
 
 module.exports = {

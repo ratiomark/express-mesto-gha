@@ -10,7 +10,8 @@ const authMiddleware = (req, res, next) => {
     req.userId = userId.id;
     return next();
   } catch (error) {
-    return next(error);
+    next(error);
+    return null;
   }
 };
 module.exports = authMiddleware;
