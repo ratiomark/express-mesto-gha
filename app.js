@@ -45,7 +45,7 @@ app.use('/*', otherRouter);
 
 app.use(errorMiddleware)
 
-async function start() {
+function start() {
 	try {
 		const PORT = process.env.PORT || 5000
 		app.listen(PORT, () => {
