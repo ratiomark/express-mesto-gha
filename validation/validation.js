@@ -1,4 +1,6 @@
-const { body, validationResult } = require('express-validator');
+const { body, param, validationResult } = require('express-validator');
+const ObjectId = require('mongoose').Types.ObjectId
+const { ApiError } = require('../Errors/Errors')
 // // с помощью body будем проверять есть ли в теле запроса определенная информация
 
 
@@ -7,22 +9,27 @@ const registerValidation = [
 	body('email', 'Неверный формат почты').isEmail(),
 	body('password', 'Слишком короткий пароль').isLength({ min: 3, }),
 	body('avatar').optional().isURL(),
-	body('name').optional().isLength({min:2, max:30}),
-	body('about').optional().isLength({min:2, max:30}),
+	body('name').optional().isLength({ min: 2, max: 30 }),
+	body('about').optional().isLength({ min: 2, max: 30 }),
 ];
 
 const loginValidation = [
 	body('email', 'Неверный формат почты').isEmail(),
 	body('password', 'Слишком короткий пароль').isLength({ min: 3, }),
 ];
+const userIdValidator = [
+	param('userId').custom(async value => {
+		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
+	})
+];
 
 
 const handleValidationErrors = (req, res, next) => {
-	// похоже, что сюда автоматом попадет результат registerValidation
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) return res.status(400).json(errors.array())
 	next()
 }
+
 module.exports = {
 	registerValidation,
 	loginValidation,
