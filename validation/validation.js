@@ -18,14 +18,20 @@ const loginValidation = [
 	body('password', 'Слишком короткий пароль').isLength({ min: 3, }),
 ];
 
+const avatarValidation = [
+	body('avatar').isURL(),
+]
 
 const patchUserDataValidation = [
-	param('userId').custom(async value => {
-		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
-	}),
 	body('avatar').optional().isURL(),
 	body('name').optional().isLength({ min: 2, max: 30 }),
 	body('about').optional().isLength({ min: 2, max: 30 }),
+];
+
+const userIdParamsValidation = [
+	param('userId').custom(async value => {
+		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
+	}),
 ];
 
 
@@ -40,7 +46,9 @@ module.exports = {
 	registerValidation,
 	loginValidation,
 	handleValidationErrors,
-	patchUserDataValidation
+	patchUserDataValidation,
+	avatarValidation,
+	userIdParamsValidation
 }
 // export const loginValidation = [
 //   // функция сама чекает, что данные являются мылом
