@@ -17,7 +17,7 @@ const createUser = async (req, res, next) => {
     });
 
     const { password, ...otherData } = data._doc;
-    res.status(200).send({ ...otherData });
+    res.status(200).json({ ...otherData });
   } catch (error) {
     next(error);
   }
