@@ -1,5 +1,5 @@
 const { body, param, validationResult } = require('express-validator');
-const ObjectId = require('mongoose').Types.ObjectId
+const isValidObjectId = require('mongoose').isValidObjectId
 const { ApiError } = require('../Errors/Errors')
 
 const registerValidation = [
@@ -32,14 +32,14 @@ const newCardValidation = [
 
 const userIdParamsValidation = [
 	param('userId').custom(value => {
-		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
+		if (!isValidObjectId(value)) throw ApiError.BadRequest('Валидность отработала')
 	}),
 ];
 
 
 const cardIdParamsValidation = [
 	param('cardId').custom(value => {
-		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
+		if (!isValidObjectId(value)) throw ApiError.BadRequest()
 	}),
 ];
 
