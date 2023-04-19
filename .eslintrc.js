@@ -12,6 +12,6 @@ module.exports = {
 
 	rules: {
 		// 'linebreak-style': ['error', 'windows'],
-		'no-underscore-dangle': [2, { allow: ['_id'] }],
+		'no-underscore-dangle': [2, { allow: ['_id', '_doc'] }],
 	},
 };

@@ -14,8 +14,9 @@ const createUser = async (req, res, next) => {
 
 		const passwordHash = await bcrypt.hash(userPassword, 7)
 		const data = await User.create({ name, about, avatar, password: passwordHash, email });
-		const { password, ...otherData } = data
-		res.send({ ...otherData });
+		
+		const { password, ...otherData } = data._doc
+		res.status(200).send({ ...otherData });
 
 	} catch (error) {
 		next(error)
