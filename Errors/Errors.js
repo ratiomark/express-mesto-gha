@@ -1,5 +1,3 @@
-
-
 class ApiError extends Error {
 	constructor(status, message) {
 		super(message)
@@ -22,19 +20,10 @@ class ApiError extends Error {
 	static BadRequest(message = 'Предоставьте корректные данные') {
 		return new ApiError(400, message)
 	}
+	
 	static Forbidden(message = 'Доступ запрещен, эти не ваши данные') {
 		return new ApiError(403, message)
 	}
 }
-
-
-
-// const MongooseError = require('mongoose').Error;
-
-// const incorrectData = new Error('Предоставьте корректные данные');
-// incorrectData.name = 'incorrectData';
-
-// const dataNotFoundInDb = new Error('Данные не найдены');
-// dataNotFoundInDb.name = 'dataNotFoundInDb';
 
 module.exports = { ApiError };

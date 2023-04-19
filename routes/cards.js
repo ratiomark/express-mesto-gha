@@ -37,4 +37,5 @@ router.post('',
 	handleValidationErrors,
 	createCard
 );
+
 module.exports = router;

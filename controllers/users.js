@@ -1,9 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/users');
-const {
-	ApiError
-} = require('../Errors/Errors');
+const { ApiError } = require('../Errors/Errors');
 
 
 const createUser = async (req, res, next) => {
@@ -34,9 +32,9 @@ const login = async (req, res, next) => {
 		const isPassEquals = await bcrypt.compare(password, user.password)
 		if (!isPassEquals) throw ApiError.Unauthorized()
 
-		const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_TOKEN_SECRET, { expiresIn: '7h' })
+		const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_TOKEN_SECRET, { expiresIn: '7d' })
 		res.cookie('token', token, {
-			maxAge: 30 * 24 * 60 * 60 * 1000,
+			maxAge: 7 * 24 * 60 * 60 * 1000,
 			httpOnly: true
 		})
 		res.status(200).json({ message: 'Успешный вход' })
