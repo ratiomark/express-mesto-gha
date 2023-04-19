@@ -14,7 +14,7 @@ const createUser = async (req, res, next) => {
 
 		const passwordHash = await bcrypt.hash(userPassword, 7)
 		const data = await User.create({ name, about, avatar, password: passwordHash, email });
-		
+
 		const { password, ...otherData } = data._doc
 		res.status(200).send({ ...otherData });
 
@@ -34,14 +34,15 @@ const login = async (req, res, next) => {
 		const isPassEquals = await bcrypt.compare(password, user.password)
 		if (!isPassEquals) throw ApiError.Unauthorized()
 
-		const token = jwt.sign(user.id, process.env.JWT_TOKEN_SECRET, { expiresIn: '7d' })
-		res.cookie('refreshToken', token, {
+		const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_TOKEN_SECRET, { expiresIn: '7h' })
+		res.cookie('token', token, {
 			maxAge: 30 * 24 * 60 * 60 * 1000,
 			httpOnly: true
 		})
 		res.status(200).json({ message: 'Успешный вход' })
 
 	} catch (error) {
+		console.log(error)
 		next(error)
 	}
 }
@@ -104,7 +105,7 @@ const updateUserAvatar = async (req, res, next) => {
 
 const getUserData = async (req, res, next) => {
 	try {
-		const userId = req.userId._id
+		const { userId } = req
 		const user = await User.findById(userId)
 		if (!user) throw ApiError.NotFound()
 		res.status(200).json({ message: user })

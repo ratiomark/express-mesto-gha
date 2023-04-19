@@ -39,9 +39,9 @@ app.post('/signup',
 
 
 app.use(authMiddleware)
-app.use('/*', otherRouter);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+app.use('/*', otherRouter);
 
 app.use(errorMiddleware)
 
