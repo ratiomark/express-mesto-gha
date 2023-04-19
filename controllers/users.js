@@ -61,7 +61,7 @@ const getUserById = async (req, res, next) => {
 		const { userId } = req.params;
 		const data = await User.findById(userId);
 
-		if (!data) throw ApiError.BadRequest();
+		if (!data) throw ApiError.NotFound();
 		res.send({ data });
 	} catch (error) {
 		next(error)
