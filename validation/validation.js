@@ -19,10 +19,13 @@ const loginValidation = [
 ];
 
 
-const userIdValidator = [
+const patchUserDataValidation = [
 	param('userId').custom(async value => {
 		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
-	})
+	}),
+	body('avatar').optional().isURL(),
+	body('name').optional().isLength({ min: 2, max: 30 }),
+	body('about').optional().isLength({ min: 2, max: 30 }),
 ];
 
 
@@ -36,7 +39,7 @@ module.exports = {
 	registerValidation,
 	loginValidation,
 	handleValidationErrors,
-	userIdValidator
+	patchUserDataValidation
 }
 // export const loginValidation = [
 //   // функция сама чекает, что данные являются мылом

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { userIdValidator, handleValidationErrors } = require('../validation/validation')
+const { patchUserDataValidation, handleValidationErrors } = require('../validation/validation')
 
 const {
 	getUsers,
@@ -13,7 +13,7 @@ router.patch('/me/avatar', updateUserAvatar);
 router.patch('/me', updateUserProfile);
 router.get('/me', getUserData);
 router.get('/:userId',
-	userIdValidator,
+	patchUserDataValidation,
 	handleValidationErrors,
 	getUserById
 );
