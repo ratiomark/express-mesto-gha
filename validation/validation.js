@@ -1,5 +1,5 @@
 const { body, param, validationResult } = require('express-validator');
-const isValidObjectId = require('mongoose').isValidObjectId
+const isValidObjectId = require('mongoose').mongoose.Types.ObjectId.isValid
 const { ApiError } = require('../Errors/Errors')
 
 const registerValidation = [
