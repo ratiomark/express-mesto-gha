@@ -21,7 +21,6 @@ router.patch('/me/avatar',
 );
 
 router.patch('/me',
-	userIdParamsValidation,
 	patchUserDataValidation,
 	handleValidationErrors,
 	updateUserProfile

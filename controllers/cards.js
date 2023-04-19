@@ -27,6 +27,9 @@ const createCard = async (req, res, next) => {
 const deleteCard = async (req, res, next) => {
 	try {
 		const { cardId } = req.params;
+		const { userId } = req;
+		const card = await Card.findById(cardId)
+		if(userId !== card.owner) throw ApiError.Forbidden()
 		const data = await Card.findByIdAndDelete({ _id: cardId });
 
 		if (!data) throw ApiError.NotFound();
@@ -46,7 +49,7 @@ const likeCard = async (req, res, next) => {
 			{ new: true },
 		).populate('likes');
 
-		if (!data) throw ApiError.BadRequest();
+		if (!data) throw ApiError.NotFound();
 		res.send({ data });
 	} catch (err) {
 		next(err)

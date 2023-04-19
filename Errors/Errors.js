@@ -22,6 +22,9 @@ class ApiError extends Error {
 	static BadRequest(message = 'Предоставьте корректные данные') {
 		return new ApiError(400, message)
 	}
+	static Forbidden(message = 'Доступ запрещен, эти не ваши данные') {
+		return new ApiError(403, message)
+	}
 }
 
 

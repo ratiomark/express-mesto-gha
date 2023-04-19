@@ -28,8 +28,20 @@ const patchUserDataValidation = [
 	body('about').optional().isLength({ min: 2, max: 30 }),
 ];
 
+const newCardValidation = [
+	body('link').isURL(),
+	body('name').isLength({ min: 2, max: 30 }),
+];
+
 const userIdParamsValidation = [
 	param('userId').custom(async value => {
+		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
+	}),
+];
+
+
+const cardIdParamsValidation = [
+	param('cardId').custom(async value => {
 		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
 	}),
 ];
@@ -48,7 +60,9 @@ module.exports = {
 	handleValidationErrors,
 	patchUserDataValidation,
 	avatarValidation,
-	userIdParamsValidation
+	userIdParamsValidation,
+	cardIdParamsValidation,
+	newCardValidation
 }
 // export const loginValidation = [
 //   // функция сама чекает, что данные являются мылом
