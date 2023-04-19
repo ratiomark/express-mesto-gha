@@ -8,13 +8,14 @@ const {
 
 const createUser = async (req, res, next) => {
 	try {
-		const { name, about, avatar, email, password } = req.body;
+		const { name, about, avatar, email, password: userPassword } = req.body;
 		const user = await User.findOne({ email })
 		if (user) throw ApiError.Conflict()
 
-		const passwordHash = await bcrypt.hash(password, 7)
+		const passwordHash = await bcrypt.hash(userPassword, 7)
 		const data = await User.create({ name, about, avatar, password: passwordHash, email });
-		res.send({ data });
+		const { password, ...otherData } = data
+		res.send({ ...otherData });
 
 	} catch (error) {
 		next(error)
@@ -37,7 +38,7 @@ const login = async (req, res, next) => {
 			maxAge: 30 * 24 * 60 * 60 * 1000,
 			httpOnly: true
 		})
-		res.json({ message: 'Успешный вход' })
+		res.status(200).json({ message: 'Успешный вход' })
 
 	} catch (error) {
 		next(error)
@@ -105,7 +106,7 @@ const getUserData = async (req, res, next) => {
 		const userId = req.userId._id
 		const user = await User.findById(userId)
 		if (!user) throw ApiError.NotFound()
-		res.json({ message: user })
+		res.status(200).json({ message: user })
 	} catch (error) {
 		next(error)
 	}

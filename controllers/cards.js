@@ -46,7 +46,7 @@ const likeCard = async (req, res, next) => {
       { new: true },
     ).populate('likes');
 
-    if (!data) throw ApiError.NotFound();
+    if (!data) throw ApiError.BadRequest();
     res.send({ data });
   } catch (err) {
     next(err)
