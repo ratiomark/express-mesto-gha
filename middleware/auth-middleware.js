@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { ApiError } = require('../Errors/Errors');
 
+// eslint-disable-next-line consistent-return
 const authMiddleware = (req, res, next) => {
   try {
     const { token } = req.cookies;
@@ -8,10 +9,9 @@ const authMiddleware = (req, res, next) => {
 
     const userId = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
     req.userId = userId.id;
-    return next();
+    next();
   } catch (error) {
     next(error);
-    return null;
   }
 };
 module.exports = authMiddleware;

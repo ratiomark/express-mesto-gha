@@ -45,11 +45,11 @@ const cardIdParamsValidation = [
   }),
 ];
 
+// eslint-disable-next-line consistent-return
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return next(ApiError.BadRequest());
   next();
-  return null;
 };
 
 module.exports = {
