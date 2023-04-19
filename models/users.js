@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
-
+// Я не понимаю к чему комментарий "Нужно валидаровать"?
+// Валидаторы уже работают с помощью мидлварин
+// Нужно 2 раза валидировать одни и те же данные?
 const userSchema = new mongoose.Schema(
   {
     password: {
       type: String,
       required: true,
-      select: false, // необходимо добавить поле select
+      select: false,
     },
     email: {
       type: String,
@@ -35,30 +37,3 @@ const userSchema = new mongoose.Schema(
   { versionKey: false },
 );
 module.exports = mongoose.model('user', userSchema);
-// const mongoose = require('mongoose');
-
-// const userSchema = new mongoose.Schema(
-//   {
-//     name: {
-//       type: String,
-//       required: true,
-//       minLength: 2,
-//       maxLength: 30,
-//       trim: true,
-//     },
-//     about: {
-//       type: String,
-//       required: true,
-//       minLength: 2,
-//       maxLength: 30,
-//       trim: true,
-//     },
-//     avatar: {
-//       type: String,
-//       required: true,
-//       trim: true,
-//     },
-//   },
-//   { versionKey: false },
-// );
-// module.exports = mongoose.model('user', userSchema);
