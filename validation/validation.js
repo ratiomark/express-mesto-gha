@@ -17,6 +17,8 @@ const loginValidation = [
 	body('email', 'Неверный формат почты').isEmail(),
 	body('password', 'Слишком короткий пароль').isLength({ min: 3, }),
 ];
+
+
 const userIdValidator = [
 	param('userId').custom(async value => {
 		if (!ObjectId.isValid(value)) throw ApiError.BadRequest()
@@ -34,6 +36,7 @@ module.exports = {
 	registerValidation,
 	loginValidation,
 	handleValidationErrors,
+	userIdValidator
 }
 // export const loginValidation = [
 //   // функция сама чекает, что данные являются мылом
