@@ -7,15 +7,17 @@ const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const otherRouter = require('./routes/otherRoutes');
 const {
-  registerValidation,
-  loginValidation,
-  handleValidationErrors,
+	registerValidation,
+	loginValidation,
+	handleValidationErrors,
 } = require('./validation/validation');
 const { createUser, login } = require('./controllers/users');
 const errorMiddleware = require('./middleware/error-middleware');
 const authMiddleware = require('./middleware/auth-middleware');
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
+	.then(() => console.log('DB connected'))
+	.catch(() => console.log('DB error during connection'));
 
 const app = express();
 
@@ -25,17 +27,17 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.post(
-  '/signin',
-  loginValidation,
-  handleValidationErrors,
-  login,
+	'/signin',
+	loginValidation,
+	handleValidationErrors,
+	login,
 );
 
 app.post(
-  '/signup',
-  registerValidation,
-  handleValidationErrors,
-  createUser,
+	'/signup',
+	registerValidation,
+	handleValidationErrors,
+	createUser,
 );
 
 app.use(authMiddleware);
@@ -46,14 +48,14 @@ app.use('/*', otherRouter);
 app.use(errorMiddleware);
 
 function start() {
-  try {
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log('Сервер запущен на порту ', PORT);
-    });
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		const PORT = process.env.PORT || 5000;
+		app.listen(PORT, () => {
+			console.log('Сервер запущен на порту ', PORT);
+		});
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 start();
