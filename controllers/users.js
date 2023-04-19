@@ -61,7 +61,7 @@ const getUserById = async (req, res, next) => {
 		const { userId } = req.params;
 		const data = await User.findById(userId);
 
-		if (!data) throw ApiError.NotFound();
+		if (!data) throw ApiError.BadRequest();
 		res.send({ data });
 	} catch (error) {
 		next(error)
@@ -72,7 +72,7 @@ const updateUserProfile = async (req, res, next) => {
 	try {
 		const { name, about } = req.body;
 
-		const userId = req.user._id;
+		const { userId } = req
 		const data = await User.findByIdAndUpdate(
 			userId,
 			{ name, about },
@@ -89,7 +89,7 @@ const updateUserAvatar = async (req, res, next) => {
 	try {
 		const { avatar } = req.body;
 
-		const userId = req.user._id;
+		const { userId } = req
 		const data = await User.findByIdAndUpdate(
 			userId,
 			{ avatar },

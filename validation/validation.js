@@ -7,6 +7,8 @@ const registerValidation = [
 	body('email', 'Неверный формат почты').isEmail(),
 	body('password', 'Слишком короткий пароль').isLength({ min: 3, }),
 	body('avatar').optional().isURL(),
+	body('name').optional().isLength({min:2, max:30}),
+	body('about').optional().isLength({min:2, max:30}),
 ];
 
 const loginValidation = [
