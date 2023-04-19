@@ -46,7 +46,7 @@ const cardIdParamsValidation = [
 
 const handleValidationErrors = (req, res, next) => {
 	const errors = validationResult(req)
-	if (!errors.isEmpty()) return next(ApiError.BadRequest())
+	if (!errors.isEmpty()) return next(ApiError.BadRequest('Это все проблемы из-за меня'))
 	next()
 }
 
