@@ -32,7 +32,8 @@ const newCardValidation = [
 
 const userIdParamsValidation = [
 	param('userId').custom(value => {
-		if (!isValidObjectId(value)) throw ApiError.BadRequest('Валидность отработала')
+		if (!isValidObjectId(value)) throw ApiError.BadRequest()
+		return true
 	}),
 ];
 
@@ -40,6 +41,7 @@ const userIdParamsValidation = [
 const cardIdParamsValidation = [
 	param('cardId').custom(value => {
 		if (!isValidObjectId(value)) throw ApiError.BadRequest()
+		return true
 	}),
 ];
 
