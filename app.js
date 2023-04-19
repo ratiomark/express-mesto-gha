@@ -15,9 +15,7 @@ const { createUser, login } = require('./controllers/users');
 const errorMiddleware = require('./middleware/error-middleware');
 const authMiddleware = require('./middleware/auth-middleware');
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
-  .then(() => console.log('DB connected'))
-  .catch(() => console.log('DB error during connection'));
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
 const app = express();
 
