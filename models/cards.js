@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-// Я не понимаю к чему комментарий "Нужно валидаровать"?
-// Валидаторы уже работают с помощью мидлварин
-// Нужно 2 раза валидировать одни и те же данные?
+
 const cardSchema = new mongoose.Schema(
   {
     name: {
@@ -27,7 +25,7 @@ const cardSchema = new mongoose.Schema(
    }],
     createdAt: {
       type: Date,
-      default: Date,
+      default: Date.now(),
     },
   },
   { versionKey: false },

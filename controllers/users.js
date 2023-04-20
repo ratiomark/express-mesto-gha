@@ -8,8 +8,8 @@ const createUser = async (req, res, next) => {
     const {
       name, about, avatar, email, password: userPassword,
     } = req.body;
+    // eslint-disable-next-line no-unused-vars
     const user = await User.findOne({ email });
-    if (user) throw ApiError.Conflict();
 
     const passwordHash = await bcrypt.hash(userPassword, 7);
     const data = await User.create({
@@ -19,6 +19,9 @@ const createUser = async (req, res, next) => {
     const { password, ...otherData } = data._doc;
     res.status(200).json({ ...otherData });
   } catch (error) {
+    if (error.code === 11000) {
+      next(ApiError.Conflict());
+    }
     next(error);
   }
 };

@@ -21,8 +21,8 @@ const avatarValidation = [
 ];
 
 const patchUserDataValidation = [
-  body('name').optional().isLength({ min: 2, max: 30 }),
-  body('about').optional().isLength({ min: 2, max: 30 }),
+  body('name').isLength({ min: 2, max: 30 }),
+  body('about').isLength({ min: 2, max: 30 }),
 ];
 
 const newCardValidation = [
