@@ -4,7 +4,7 @@ const { ApiError } = require('../Errors/Errors');
 
 const getCards = async (req, res, next) => {
   try {
-    const data = await Card.find({}).populate('likes').populate('owner');
+    const data = await Card.find({}).populate(['likes', 'owner']);
     res.send({ data });
   } catch (err) {
     next(err);

@@ -11,10 +11,9 @@ const authMiddleware = (req, res, next) => {
     req.userId = userId.id;
     next();
   } catch (error) {
-    // сорян, я не понимаю
-    // я уже проверил наличие токена, он точно есть
-    // из токена я достаю айдишник и если с ним будет проблема, то в контроллере
-    // отработает кастомная ошибка. Я не понимаю про какую ошибку вы говорите
+    if (error.message === 'jwt malformed') {
+      return next(ApiError.Unauthorized());
+    }
     next(error);
   }
 };
