@@ -36,7 +36,11 @@ const login = async (req, res, next) => {
     const isPassEquals = await bcrypt.compare(password, user.password);
     if (!isPassEquals) throw ApiError.Unauthorized();
 
-    const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_TOKEN_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign(
+      { id: user._id.toString() },
+      process.env.JWT_TOKEN_SECRET || 'secret_key',
+      { expiresIn: '7d' },
+    );
     res.cookie('token', token, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,

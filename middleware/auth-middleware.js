@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
     const { token } = req.cookies;
     if (!token) return next(ApiError.Unauthorized());
 
-    const userId = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+		const userId = jwt.verify(token, process.env.JWT_TOKEN_SECRET || 'secret_key');
     req.userId = userId.id;
     next();
   } catch (error) {
