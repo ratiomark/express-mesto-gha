@@ -30,6 +30,7 @@ router.patch(
 
 router.get('/me', getUserData);
 
+
 router.get(
   '/:userId',
   userIdParamsValidation,
