@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-// Подстраховка? Тогда нужно делать 8 разных валидаций, ну чтобы наверняка подстаховаться 👍
-// По факту, с такой логикой рассуждения, ревьюеры не должны принимать работы студентов,
-// пока студенты не сделают 2 валидации. Не думаю, что такие требования где-то указаны
+const isEmail = require('validator/lib/isEmail');
+const { linkRegEx } = require('../validation/constants');
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,6 +13,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      validate: {
+        validator: (value) => isEmail(value),
+        message: 'Неправильный формат почты',
+      },
     },
     name: {
       type: String,
@@ -33,6 +36,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+      validate: {
+        validator: (value) => linkRegEx.test(value),
+        message: 'This is not a valid link!',
+      },
     },
   },
   { versionKey: false },

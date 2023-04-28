@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { linkRegEx } = require('../validation/constants');
 
 const cardSchema = new mongoose.Schema(
   {
@@ -11,6 +12,10 @@ const cardSchema = new mongoose.Schema(
     link: {
       type: String,
       required: true,
+      validate: {
+        validator: (value) => linkRegEx.test(value),
+        message: 'Невалидная ссылка',
+      },
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
@@ -25,7 +30,7 @@ const cardSchema = new mongoose.Schema(
    }],
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
     },
   },
   { versionKey: false },
